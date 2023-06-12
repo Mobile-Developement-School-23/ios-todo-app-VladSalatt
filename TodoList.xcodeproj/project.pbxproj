@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA655DD82A37942D00AE56DA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA655DD72A37942D00AE56DA /* TodoItem.swift */; };
 		EA7B28D22A37930600261559 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28D12A37930600261559 /* AppDelegate.swift */; };
 		EA7B28D42A37930600261559 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28D32A37930600261559 /* SceneDelegate.swift */; };
 		EA7B28D62A37930600261559 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28D52A37930600261559 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA655DD72A37942D00AE56DA /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		EA7B28CE2A37930600261559 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7B28D12A37930600261559 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA7B28D32A37930600261559 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA655DD52A37941900AE56DA /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				EA655DD62A37942100AE56DA /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		EA655DD62A37942100AE56DA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EA655DD72A37942D00AE56DA /* TodoItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		EA7B28C52A37930600261559 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +117,7 @@
 		EA7B28D02A37930600261559 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				EA655DD52A37941900AE56DA /* Domain */,
 				EA7B28D12A37930600261559 /* AppDelegate.swift */,
 				EA7B28D32A37930600261559 /* SceneDelegate.swift */,
 				EA7B28D52A37930600261559 /* ViewController.swift */,
@@ -260,6 +279,7 @@
 			files = (
 				EA7B28D62A37930600261559 /* ViewController.swift in Sources */,
 				EA7B28D22A37930600261559 /* AppDelegate.swift in Sources */,
+				EA655DD82A37942D00AE56DA /* TodoItem.swift in Sources */,
 				EA7B28D42A37930600261559 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
