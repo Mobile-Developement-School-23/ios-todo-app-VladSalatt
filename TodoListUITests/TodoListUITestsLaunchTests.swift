@@ -1,10 +1,3 @@
-//
-//  TodoListUITestsLaunchTests.swift
-//  TodoListUITests
-//
-//  Created by Vladislav Koshelev on 12.06.2023.
-//
-
 import XCTest
 
 final class TodoListUITestsLaunchTests: XCTestCase {
