@@ -2,10 +2,22 @@ import Foundation
 
 extension TodoItem {
     static func parse(json: Any) -> TodoItem? {
-        guard
-            let json = json as? String,
-            let data = json.data(using: .utf8)
-        else { return nil }
+        var data: Data?
+
+        switch json {
+        case is Data:
+            data = json as? Data
+        case is String:
+            let json = json as? String
+            data = json?.data(using: .utf8)
+        case is [String: Any]:
+            let jsonDict = json as? [String: Any] ?? [:]
+            return TodoItem(from: jsonDict)
+        default:
+            return nil
+        }
+        
+        guard let data else { return nil }
         
         do {
             guard
@@ -20,6 +32,7 @@ extension TodoItem {
 }
 
 private extension TodoItem {
+    /// Инициализатор, который преобразует словарь типа [String: Any] (aka json) в объект типа TodoItem
     init?(from jsonDict: [String: Any]) {
         guard
             let id = jsonDict["id"] as? String,
