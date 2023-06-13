@@ -26,8 +26,28 @@ extension TodoItem {
             else { return nil }
             return TodoItem(from: jsonDict)
         } catch {
-            print(error)
+            assertionFailure(error.localizedDescription)
             return nil
+        }
+    }
+    
+    var json: Data {
+        // Создание словаря, где ключ - ключ в json, значение - из структуры TodoItem
+        let jsonDict: [String: Any?] = [
+            CustomKeys.id.rawValue: id,
+            CustomKeys.text.rawValue: text,
+            CustomKeys.importance.rawValue: importance == .basic ? nil : importance.rawValue,
+            CustomKeys.deadline.rawValue: deadline == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970 },
+            CustomKeys.isDone.rawValue: isDone,
+            CustomKeys.createdAt.rawValue: createdAt.timeIntervalSince1970,
+            CustomKeys.changedAt.rawValue: changedAt == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970}
+        ]
+        
+        do {
+            return try JSONSerialization.data(withJSONObject: jsonDict) as Data
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return Data()
         }
     }
 }
