@@ -6,8 +6,8 @@ struct TodoItem {
     let id: String
     /// Текст
     let text: String
-    /// Приоритет (важность)
-    let priority: Priority
+    /// Важность
+    let importance: Importance
     /// Дедлайн
     let deadline: Date?
     /// Готовность. Сделана задача или нет
@@ -20,7 +20,7 @@ struct TodoItem {
     init(
         id: String = UUID().uuidString,
         text: String,
-        priority: Priority,
+        importance: Importance,
         deadline: Date?,
         isDone: Bool,
         createdAt: Date,
@@ -28,7 +28,7 @@ struct TodoItem {
     ) {
         self.id = id
         self.text = text
-        self.priority = priority
+        self.importance = importance
         self.deadline = deadline
         self.isDone = isDone
         self.createdAt = createdAt
@@ -38,12 +38,12 @@ struct TodoItem {
 
 extension TodoItem {
     /// Поле "Важность" для задачи
-    enum Priority {
+    enum Importance: String {
         /// неважный
-        case minor
+        case low
         /// нормальный
-        case normal
+        case basic
         /// важный
-        case high
+        case important
     }
 }
