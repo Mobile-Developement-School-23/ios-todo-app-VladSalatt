@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA4C82212A38F85B00C5FCF2 /* TodoItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4C82202A38F85B00C5FCF2 /* TodoItem+Extensions.swift */; };
 		EA655DD82A37942D00AE56DA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA655DD72A37942D00AE56DA /* TodoItem.swift */; };
 		EA7B28D22A37930600261559 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28D12A37930600261559 /* AppDelegate.swift */; };
 		EA7B28D42A37930600261559 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28D32A37930600261559 /* SceneDelegate.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA4C82202A38F85B00C5FCF2 /* TodoItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+Extensions.swift"; sourceTree = "<group>"; };
 		EA655DD72A37942D00AE56DA /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		EA7B28CE2A37930600261559 /* TodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7B28D12A37930600261559 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				EA655DD72A37942D00AE56DA /* TodoItem.swift */,
+				EA4C82202A38F85B00C5FCF2 /* TodoItem+Extensions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA7B28D62A37930600261559 /* ViewController.swift in Sources */,
+				EA4C82212A38F85B00C5FCF2 /* TodoItem+Extensions.swift in Sources */,
 				EA7B28D22A37930600261559 /* AppDelegate.swift in Sources */,
 				EA655DD82A37942D00AE56DA /* TodoItem.swift in Sources */,
 				EA7B28D42A37930600261559 /* SceneDelegate.swift in Sources */,
