@@ -23,7 +23,7 @@ struct TodoItem {
         importance: Importance,
         deadline: Date?,
         isDone: Bool,
-        createdAt: Date,
+        createdAt: Date = Date(),
         changedAt: Date?
     ) {
         self.id = id
