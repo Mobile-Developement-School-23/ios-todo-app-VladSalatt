@@ -44,7 +44,7 @@ extension TodoItem {
         ]
         
         do {
-            return try JSONSerialization.data(withJSONObject: jsonDict) as Any
+            return try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted) as Any
         } catch {
             assertionFailure(error.localizedDescription)
             return Data() as Any
