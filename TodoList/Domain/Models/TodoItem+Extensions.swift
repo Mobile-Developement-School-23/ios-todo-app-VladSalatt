@@ -31,7 +31,7 @@ extension TodoItem {
         }
     }
     
-    var json: Data {
+    var json: Any {
         // Создание словаря, где ключ - ключ в json, значение - из структуры TodoItem
         let jsonDict: [String: Any?] = [
             CustomKeys.id.rawValue: id,
@@ -44,10 +44,10 @@ extension TodoItem {
         ]
         
         do {
-            return try JSONSerialization.data(withJSONObject: jsonDict) as Data
+            return try JSONSerialization.data(withJSONObject: jsonDict) as Any
         } catch {
             assertionFailure(error.localizedDescription)
-            return Data()
+            return Data() as Any
         }
     }
 }
