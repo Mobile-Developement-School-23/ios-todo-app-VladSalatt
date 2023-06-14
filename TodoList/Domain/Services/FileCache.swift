@@ -11,15 +11,11 @@ protocol FileCacheProtocol {
     var items: [String: TodoItem] { get }
     func add(_ item: TodoItem)
     func deleteItem(with id: String)
-    func saveAsJson()
-    func loadJson()
+    func saveAsJson(for fileName: String)
+    func loadJson(for fileName: String)
 }
 
 final class FileCache: FileCacheProtocol {
-    enum Constants {
-        static let fileName = "todoItems.json"
-    }
-    
     private(set) var items: [String: TodoItem] = [:]
     private let fileManager: FileManager
     // Сделано для того, чтобы при инициализации массив items был УЖЕ был заполнен
@@ -39,29 +35,43 @@ final class FileCache: FileCacheProtocol {
         items[id] = nil
     }
     
-    func saveAsJson() {
-        let jsonString: String = {
-            let result = items.values
-                .compactMap { item -> String? in
-                    guard
-                        let data = item.json as? Data,
-                        let resultString = String(data: data, encoding: .utf8)
-                    else { return nil }
-                    return resultString
-                }.joined(separator: ",")
-            return "[\(result)]"
-        }()
-        
+    func saveAsJson(for fileName: String) {
+        let jsones = items.values.map { $0.json }
+
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = directory.appendingPathComponent(Constants.fileName)
+        let filePath = directory
+            .appendingPathComponent(fileName)
+            .appendingPathExtension("json")
 
         do {
-            try jsonString.write(to: filePath, atomically: false, encoding: .utf8)
+            let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
+            try data.write(to: filePath)
         } catch {
             assertionFailure(error.localizedDescription)
         }
     }
     
-    func loadJson() {
+    func loadJson(for fileName: String) {
+        let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let filePath = directory
+            .appendingPathComponent(fileName)
+            .appendingPathExtension("json")
+            
+        guard
+            let data = try? Data(contentsOf: filePath),
+            let rawTodoItems = try? JSONSerialization.jsonObject(with: data) as? [Any]
+        else { return }
+        
+        updateTodoItems(from: rawTodoItems)
+    }
+}
+
+private extension FileCache {
+    func updateTodoItems(from rawItems: [Any]) {
+        items.removeAll()
+        
+        rawItems
+            .compactMap { TodoItem.parse(json: $0) }
+            .forEach { items[$0.id] = $0 }
     }
 }

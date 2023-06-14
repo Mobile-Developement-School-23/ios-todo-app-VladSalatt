@@ -34,18 +34,6 @@ struct TodoItem {
         self.createdAt = createdAt
         self.changedAt = changedAt
     }
-    
-    /// Enum, в котором описаны все ключи.
-    /// Используется для того, чтобы при сериализации не ошибиться в названии ключей
-    enum CustomKeys: String {
-        case id
-        case text
-        case importance
-        case deadline
-        case isDone = "done"
-        case createdAt = "created_at"
-        case changedAt = "changed_at"
-    }
 }
 
 extension TodoItem {
@@ -57,5 +45,19 @@ extension TodoItem {
         case basic
         /// важный
         case important
+    }
+}
+
+extension TodoItem {
+    /// Enum, в котором описаны все ключи.
+    /// Используется для того, чтобы при сериализации не ошибиться в названии ключей
+    enum CustomKeys: String {
+        case id
+        case text
+        case importance
+        case deadline
+        case isDone = "done"
+        case createdAt = "created_at"
+        case changedAt = "changed_at"
     }
 }

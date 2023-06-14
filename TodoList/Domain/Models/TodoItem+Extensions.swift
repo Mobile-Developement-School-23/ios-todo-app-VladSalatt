@@ -32,8 +32,7 @@ extension TodoItem {
     }
     
     var json: Any {
-        // Создание словаря, где ключ - ключ в json, значение - из структуры TodoItem
-        let jsonDict: [String: Any?] = [
+        [
             CustomKeys.id.rawValue: id,
             CustomKeys.text.rawValue: text,
             CustomKeys.importance.rawValue: importance == .basic ? nil : importance.rawValue,
@@ -41,14 +40,7 @@ extension TodoItem {
             CustomKeys.isDone.rawValue: isDone,
             CustomKeys.createdAt.rawValue: createdAt.timeIntervalSince1970,
             CustomKeys.changedAt.rawValue: changedAt == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970}
-        ]
-        
-        do {
-            return try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted) as Any
-        } catch {
-            assertionFailure(error.localizedDescription)
-            return Data() as Any
-        }
+        ] as [String: Any?]
     }
 }
 
