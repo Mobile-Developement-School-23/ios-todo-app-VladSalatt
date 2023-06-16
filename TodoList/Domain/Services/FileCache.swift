@@ -16,15 +16,16 @@ protocol FileCacheProtocol {
 }
 
 final class FileCache: FileCacheProtocol {
+    enum Constants {
+        static let todoItems = "todoItems"
+    }
+    
     private(set) var items: [String: TodoItem] = [:]
     private let fileManager: FileManager
-    // Сделано для того, чтобы при инициализации массив items был УЖЕ был заполнен
-//    init() {
-//        self.items = loadJson()
-//    }
     
     init(fileManager: FileManager) {
         self.fileManager = fileManager
+        self.loadJson(for: Constants.todoItems)
     }
     
     func add(_ item: TodoItem) {
