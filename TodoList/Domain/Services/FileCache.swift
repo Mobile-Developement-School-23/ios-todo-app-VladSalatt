@@ -11,7 +11,7 @@ protocol FileCacheProtocol {
     var items: [String: TodoItem] { get }
     func add(_ item: TodoItem)
     func deleteItem(with id: String)
-    func saveAsJson(for fileName: String)
+    func saveAsJson(for fileName: String) throws
     func loadJson(for fileName: String)
 }
 
@@ -36,20 +36,15 @@ final class FileCache: FileCacheProtocol {
         items[id] = nil
     }
     
-    func saveAsJson(for fileName: String) {
+    func saveAsJson(for fileName: String) throws {
         let jsones = items.values.map { $0.json }
 
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let filePath = directory
             .appendingPathComponent(fileName)
             .appendingPathExtension("json")
-
-        do {
-            let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
-            try data.write(to: filePath)
-        } catch {
-            assertionFailure(error.localizedDescription)
-        }
+        let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
+        try data.write(to: filePath)
     }
     
     func loadJson(for fileName: String) {
@@ -73,6 +68,6 @@ private extension FileCache {
         
         rawItems
             .compactMap { TodoItem.parse(json: $0) }
-            .forEach { items[$0.id] = $0 }
+            .forEach { add($0) }
     }
 }
