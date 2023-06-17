@@ -1,9 +1,17 @@
 import Foundation
 
 extension TodoItem {
-    static func parse(json: Any) -> TodoItem? {
-        guard let json = json as? [String: Any] else { return nil }
-        return TodoItem(from: json)
+    static func parse(with data: Any) -> TodoItem? {
+        switch data {
+        case is [String: Any]:
+            guard let json = data as? [String: Any] else { return nil }
+            return TodoItem(from: json)
+        case is String:
+            guard let csv = data as? String else { return nil }
+            return TodoItem(from: csv)
+        default:
+            return nil
+        }
     }
     
     var json: Any {
@@ -16,6 +24,18 @@ extension TodoItem {
             CustomKeys.createdAt.rawValue: createdAt.timeIntervalSince1970,
             CustomKeys.changedAt.rawValue: changedAt == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970 }
         ] as [String: Any?]
+    }
+    
+    var csv: String {
+        [
+            id,
+            text,
+            importance == .basic ? nil : importance.rawValue,
+            deadline.flatMap { "\($0.timeIntervalSince1970)" },
+            "\(isDone)",
+            "\(createdAt.timeIntervalSince1970)",
+            changedAt.flatMap { "\($0.timeIntervalSince1970)" }
+        ].compactMap { $0 }.joined(separator: ",")
     }
 }
 
@@ -32,6 +52,30 @@ private extension TodoItem {
         let isDone = (jsonDict[CustomKeys.isDone.rawValue] as? Bool) ?? false
         let createdAt = Date(timeIntervalSince1970: createdAtTS)
         let changedAt = (jsonDict[CustomKeys.changedAt.rawValue] as? TimeInterval).flatMap(Date.init(timeIntervalSince1970:))
+        
+        self.init(
+            id: id,
+            text: text,
+            importance: importance,
+            deadline: deadline,
+            isDone: isDone,
+            createdAt: createdAt,
+            changedAt: changedAt
+        )
+    }
+    
+    init?(from csv: String) {
+        let comps = csv.components(separatedBy: ",")
+        guard comps.count == 7 else { return nil }
+        let (id, text, importance, deadline, isDone, createdAt, changedAt) = (
+            comps[0],
+            comps[1],
+            Importance(rawValue: comps[2]) ?? .basic,
+            TimeInterval(comps[3]).flatMap(Date.init(timeIntervalSince1970:)),
+            Bool(comps[4]) ?? false,
+            TimeInterval(comps[5]).flatMap(Date.init(timeIntervalSince1970:)) ?? Date(),
+            TimeInterval(comps[6]).flatMap(Date.init(timeIntervalSince1970:))
+        )
         
         self.init(
             id: id,

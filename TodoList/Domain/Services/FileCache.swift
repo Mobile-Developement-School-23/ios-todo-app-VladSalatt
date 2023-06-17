@@ -11,8 +11,8 @@ protocol FileCacheProtocol {
     var items: [String: TodoItem] { get }
     func add(_ item: TodoItem)
     func deleteItem(with id: String)
-    func saveAsJson(for fileName: String) throws
-    func loadJson(for fileName: String)
+    func save(as type: FileCache.FileType, to name: String) throws
+    func load(_ type: FileCache.FileType, from path: String) throws
 }
 
 final class FileCache: FileCacheProtocol {
@@ -25,7 +25,6 @@ final class FileCache: FileCacheProtocol {
     
     init(fileManager: FileManager) {
         self.fileManager = fileManager
-        self.loadJson(for: Constants.todoItems)
     }
     
     func add(_ item: TodoItem) {
@@ -36,36 +35,47 @@ final class FileCache: FileCacheProtocol {
         items[id] = nil
     }
     
-    func saveAsJson(for fileName: String) throws {
-        let jsones = items.values.map { $0.json }
-
-        guard
-            let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        else { throw FileCacheError.directoryNotFound }
-
-        let filePath = directory
-            .appendingPathComponent(fileName)
-            .appendingPathExtension("json")
-        let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
-        try data.write(to: filePath)
-    }
-    
-    func loadJson(for fileName: String) {
-        let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = directory
-            .appendingPathComponent(fileName)
-            .appendingPathExtension("json")
-            
-        guard
-            let data = try? Data(contentsOf: filePath),
-            let rawTodoItems = try? JSONSerialization.jsonObject(with: data) as? [Any]
-        else { return }
+    func save(as type: FileType, to path: String) throws {
+        guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            throw FileCacheError.directoryNotFound
+        }
         
-        updateTodoItems(from: rawTodoItems)
+        let filePath = directory
+            .appendingPathComponent(path)
+            .appendingPathExtension(type.rawValue)
+        
+        switch type {
+        case .json:
+            try saveAsJson(to: filePath)
+        case .csv:
+            try saveAsCsv(to: filePath)
+        }
+    }
+
+    func load(_ type: FileType, from path: String) throws {
+        guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            throw FileCacheError.directoryNotFound
+        }
+        
+        let filePath = directory
+            .appendingPathComponent(path)
+            .appendingPathExtension(type.rawValue)
+        
+        switch type {
+        case .json:
+            try loadJson(from: filePath)
+        case .csv:
+            try? loadCsv(from: filePath)
+        }
     }
 }
 
 extension FileCache {
+    enum FileType: String {
+        case json
+        case csv
+    }
+    
     enum FileCacheError: Error {
         case directoryNotFound
         
@@ -79,9 +89,33 @@ extension FileCache {
 }
 
 private extension FileCache {
+    func saveAsJson(to path: URL) throws {
+        let jsones = items.values.map { $0.json }
+        let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
+        try data.write(to: path)
+    }
+    
+    func saveAsCsv(to path: URL) throws {
+        let csv = items.values.map { $0.csv }.joined(separator: "\n")
+        try csv.write(to: path, atomically: true, encoding: .utf8)
+    }
+    
+    func loadJson(from path: URL) throws {
+        guard
+            let data = try? Data(contentsOf: path),
+            let rawItems = try JSONSerialization.jsonObject(with: data) as? [Any]
+        else { return }
+        updateTodoItems(from: rawItems)
+    }
+    
+    func loadCsv(from path: URL) throws {
+        let rawItems = try String(contentsOf: path).split(separator: ",").map(String.init)
+        updateTodoItems(from: rawItems)
+    }
+    
     func updateTodoItems(from rawItems: [Any]) {
         rawItems
-            .compactMap { TodoItem.parse(json: $0) }
+            .compactMap { TodoItem.parse(with: $0) }
             .forEach { add($0) }
     }
 }
