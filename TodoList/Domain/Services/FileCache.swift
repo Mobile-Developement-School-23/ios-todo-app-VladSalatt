@@ -16,7 +16,7 @@ protocol FileCacheProtocol {
 }
 
 final class FileCache: FileCacheProtocol {
-    enum Constants {
+    private enum Constants {
         static let todoItems = "todoItems"
     }
     
@@ -39,7 +39,10 @@ final class FileCache: FileCacheProtocol {
     func saveAsJson(for fileName: String) throws {
         let jsones = items.values.map { $0.json }
 
-        let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        guard
+            let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { throw FileCacheError.directoryNotFound }
+
         let filePath = directory
             .appendingPathComponent(fileName)
             .appendingPathExtension("json")
@@ -62,10 +65,21 @@ final class FileCache: FileCacheProtocol {
     }
 }
 
+extension FileCache {
+    enum FileCacheError: Error {
+        case directoryNotFound
+        
+        var localizedDescription: String {
+            switch self {
+            case .directoryNotFound:
+                return "User doesn't have document directory"
+            }
+        }
+    }
+}
+
 private extension FileCache {
     func updateTodoItems(from rawItems: [Any]) {
-        items.removeAll()
-        
         rawItems
             .compactMap { TodoItem.parse(json: $0) }
             .forEach { add($0) }
