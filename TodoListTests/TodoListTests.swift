@@ -6,14 +6,16 @@ final class TodoListTests: XCTestCase {
     var fileCache: FileCache?
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
         fileCache = FileCache(fileManager: .default)
     }
 
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         fileCache = nil
     }
     
-    func testValidParseJSON() throws {
+    func testValidParseJSON() {
         // given
         let validJson = Seeds.validJSON
         
@@ -24,7 +26,7 @@ final class TodoListTests: XCTestCase {
         XCTAssertNotNil(item)
     }
     
-    func testInvalidParseJSON() throws {
+    func testInvalidParseJSON() {
         // given
         let invalidJson = Seeds.invalidJSON
         
@@ -35,7 +37,7 @@ final class TodoListTests: XCTestCase {
         XCTAssertNil(item)
     }
     
-    func testValidParseCSV() throws {
+    func testValidParseCSV() {
         // given
         let validCSV = Seeds.validCSV
         
@@ -45,7 +47,7 @@ final class TodoListTests: XCTestCase {
         // then
         XCTAssertNotNil(item)
     }
-    func testInvalidParseCSV() throws {
+    func testInvalidParseCSV() {
         // given
         let invalidCSV = Seeds.invalidCSV
         
@@ -56,7 +58,7 @@ final class TodoListTests: XCTestCase {
         XCTAssertNil(item)
     }
     
-    func testAddToFileCache() throws {
+    func testAddToFileCache() {
         // given
         let items = Seeds.todoItems
         
@@ -67,7 +69,7 @@ final class TodoListTests: XCTestCase {
         XCTAssertTrue(fileCache?.items.values.count == 3)
     }
     
-    func testDeleteFromFileCache() throws {
+    func testDeleteFromFileCache() {
         // given
         Seeds.todoItems.forEach { fileCache?.add($0) }
         
@@ -83,13 +85,14 @@ final class TodoListTests: XCTestCase {
         let item = Seeds.todoItem
         
         // when
-        let date = (item.json as! [String: Any])["created_at"]!
+        let dict = try XCTUnwrap(item.json as? [String: Any])
+        let date = try XCTUnwrap(dict["created_at"])
         
         // then
         XCTAssertTrue(date is TimeInterval)
     }
     
-    func testDateAsTimestampInCsv() throws {
+    func testDateAsTimestampInCsv() {
         // given
         let item = Seeds.todoItem
         
@@ -102,7 +105,7 @@ final class TodoListTests: XCTestCase {
     }
 }
 
-enum Seeds {
+private enum Seeds {
     static let validJSON: [String: Any] = [
         "id": "1",
         "text": "text",
