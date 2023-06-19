@@ -23,7 +23,7 @@ extension TodoItem {
             CustomKeys.isDone.rawValue: isDone,
             CustomKeys.createdAt.rawValue: createdAt.timeIntervalSince1970,
             CustomKeys.changedAt.rawValue: changedAt == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970 }
-        ] as [String: Any?]
+        ].compactMapValues { $0 }
     }
     
     var csv: String {
