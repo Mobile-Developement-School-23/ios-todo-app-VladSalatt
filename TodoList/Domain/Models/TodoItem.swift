@@ -38,7 +38,7 @@ struct TodoItem {
 
 extension TodoItem {
     /// Поле "Важность" для задачи
-    enum Importance: String {
+    enum Importance: String, CaseIterable {
         /// неважный
         case low
         /// нормальный

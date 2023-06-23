@@ -18,7 +18,7 @@ extension TodoItem {
         [
             CustomKeys.id.rawValue: id,
             CustomKeys.text.rawValue: text,
-            CustomKeys.importance.rawValue: importance == .basic ? nil : importance.rawValue,
+            CustomKeys.importance.rawValue: importance == .basic ? nil : importance.rawValue as Any,
             CustomKeys.deadline.rawValue: deadline == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970 },
             CustomKeys.isDone.rawValue: isDone,
             CustomKeys.createdAt.rawValue: createdAt.timeIntervalSince1970,
