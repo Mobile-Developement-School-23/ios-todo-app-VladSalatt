@@ -8,14 +8,14 @@
 import UIKit
 
 final class TodoDetailViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     var presenter: TodoDetailPresenterProtocol?
     private lazy var customView = TodoDetailView()
-    
+
     // MARK: - UIViewController Events
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         customView.delegate = self
@@ -27,7 +27,7 @@ final class TodoDetailViewController: UIViewController {
 private extension TodoDetailViewController {
     func setupUI() {
         view.addSubview(customView)
-        
+
         NSLayoutConstraint.activate([
             customView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             customView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -44,7 +44,7 @@ extension TodoDetailViewController: TodoDetailViewDeletage {
         let item = TodoItem(from: model)
         presenter?.save(item)
     }
-    
+
     func dismiss() {
         dismiss(animated: true)
     }

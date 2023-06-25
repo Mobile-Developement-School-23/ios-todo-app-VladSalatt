@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    
+
     @discardableResult
     func addSubviews(_ views: UIView...) -> UIView {
         views.forEach { addSubview($0) }
@@ -17,7 +17,7 @@ extension UIView {
 }
 
 extension UIStackView {
-    
+
     @discardableResult
     func addArrangedSubviews(_ views: UIView...) -> UIView {
         views.forEach { addArrangedSubview($0) }

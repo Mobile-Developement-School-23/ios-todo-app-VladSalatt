@@ -19,31 +19,31 @@ final class FileCache: FileCacheProtocol {
     private enum Constants {
         static let todoItems = "todoItems"
     }
-    
+
     private(set) var items: [String: TodoItem] = [:]
     private let fileManager: FileManager
-    
+
     init(fileManager: FileManager) {
         self.fileManager = fileManager
     }
-    
+
     func add(_ item: TodoItem) {
         items[item.id] = item
     }
-    
+
     func deleteItem(with id: String) {
         items[id] = nil
     }
-    
+
     func save(as type: FileType, to path: String) throws {
         guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw FileCacheError.directoryNotFound
         }
-        
+
         let filePath = directory
             .appendingPathComponent(path)
             .appendingPathExtension(type.rawValue)
-        
+
         switch type {
         case .json:
             try saveAsJson(to: filePath)
@@ -56,11 +56,11 @@ final class FileCache: FileCacheProtocol {
         guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw FileCacheError.directoryNotFound
         }
-        
+
         let filePath = directory
             .appendingPathComponent(path)
             .appendingPathExtension(type.rawValue)
-        
+
         switch type {
         case .json:
             try loadJson(from: filePath)
@@ -75,10 +75,10 @@ extension FileCache {
         case json
         case csv
     }
-    
+
     enum FileCacheError: Error {
         case directoryNotFound
-        
+
         var localizedDescription: String {
             switch self {
             case .directoryNotFound:
@@ -94,12 +94,12 @@ private extension FileCache {
         let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
         try data.write(to: path)
     }
-    
+
     func saveAsCsv(to path: URL) throws {
         let csv = items.values.map { $0.csv }.joined(separator: "\n")
         try csv.write(to: path, atomically: true, encoding: .utf8)
     }
-    
+
     func loadJson(from path: URL) throws {
         guard
             let data = try? Data(contentsOf: path),
@@ -107,12 +107,12 @@ private extension FileCache {
         else { return }
         updateTodoItems(from: rawItems)
     }
-    
+
     func loadCsv(from path: URL) throws {
         let rawItems = try String(contentsOf: path).split(separator: ",").map(String.init)
         updateTodoItems(from: rawItems)
     }
-    
+
     func updateTodoItems(from rawItems: [Any]) {
         rawItems
             .compactMap { TodoItem.parse(with: $0) }

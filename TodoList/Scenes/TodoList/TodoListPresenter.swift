@@ -17,14 +17,14 @@ protocol TodoListPresenterProtocol {
 }
 
 final class TodoListPresenter: TodoListPresenterProtocol {
-    
+
     // MARK: - Properties
-    
+
     private weak var view: TodoListViewProtocol?
     private let router: TodoListRouterProtocol
-    
+
     // MARK: - Initializers
-    
+
     init(
         view: TodoListViewProtocol,
         router: TodoListRouterProtocol
@@ -32,5 +32,4 @@ final class TodoListPresenter: TodoListPresenterProtocol {
         self.view = view
         self.router = router
     }
-    
 }
