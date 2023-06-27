@@ -87,9 +87,16 @@ final class DetailItemView: UIView {
         selectedDate = model.selectedDate
     }
 
-    func changeSubtitle(with text: String?) {
-        subtitleButton.setTitle(text, for: .normal)
-        subtitleButton.isHidden = text == nil
+    func changeSubtitle(with date: Date?) {
+        guard let date else {
+            subtitleButton.isHidden = true
+            selectedDate = nil
+            return
+        }
+        let stringDate = DateFormatter.dayWithMonth.string(from: date)
+        selectedDate = date
+        subtitleButton.setTitle(stringDate, for: .normal)
+        subtitleButton.isHidden = false
     }
 
     func getModel() -> Model {

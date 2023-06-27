@@ -83,6 +83,8 @@ final class DetailFooterView: UIView {
     func configure(with model: Model) {
         importanceView.configure(with: model.importance)
         deadlineView.configure(with: model.deadline)
+        guard let selectedDate = model.deadline.selectedDate else { return }
+        datePicker.setDate(selectedDate, animated: false)
     }
 
     func getModel() -> Model {
@@ -249,9 +251,7 @@ private extension DetailFooterView {
         UIAction { [weak self] _ in
             guard let self else { return }
             let date = self.datePicker.date
-            let stringDate = DateFormatter.dayWithMonth.string(from: date)
-//            self.delegate?.dateChanged(date)
-            self.deadlineView.changeSubtitle(with: stringDate)
+            self.deadlineView.changeSubtitle(with: date)
             self.hideDatePicker()
         }
     }

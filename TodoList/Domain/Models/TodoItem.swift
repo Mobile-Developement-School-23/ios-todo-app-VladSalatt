@@ -11,7 +11,7 @@ struct TodoItem {
     /// Дедлайн
     let deadline: Date?
     /// Готовность. Сделана задача или нет
-    let isDone: Bool
+    var isDone: Bool
     /// Дата создания
     let createdAt: Date
     /// Дата изменения
@@ -33,6 +33,10 @@ struct TodoItem {
         self.isDone = isDone
         self.createdAt = createdAt
         self.changedAt = changedAt
+    }
+    
+    mutating func setIdDone(_ isDone: Bool) {
+        self.isDone = isDone
     }
 }
 

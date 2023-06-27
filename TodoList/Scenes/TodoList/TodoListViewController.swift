@@ -18,35 +18,72 @@ final class TodoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "1"
-        title = "2"
-        view.addSubview(customView)
+        setupNavigationBar()
+        setupUI()
 
+        customView.delegate = self
+    }
+}
+
+// MARK: - Delegates
+
+extension TodoListViewController: TodoListViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int? {
+        presenter?.tableView(tableView, numberOfRowsInSection: section)
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+        presenter?.tableView(tableView, cellForRowAt: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter?.tableView(tableView, didSelectRowAt: indexPath)
+    }
+    
+    func done(by row: Int) {
+        presenter?.done(by: row)
+    }
+    
+    func info(by row: Int) {
+        presenter?.info(by: row)
+    }
+    
+    func delete(by row: Int) {
+        presenter?.delete(by: row)
+    }
+    
+    func plusButtonTapped() {
+        presenter?.openEmptyDetails()
+    }
+}
+
+extension TodoListViewController: TodoListViewProtocol {
+    func reloadData() {
+        customView.reloadData()
+    }
+}
+
+// MARK: - Private
+
+private extension TodoListViewController {
+    func setupUI() {
+        view.addSubviews(customView)
+
+        setupContraints()
+    }
+
+    func setupContraints() {
         NSLayoutConstraint.activate([
             customView.topAnchor.constraint(equalTo: view.topAnchor),
             customView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             customView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-
-        customView.delegate = self
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let viewController = TodoDetailConfigurator.configure()
-        present(viewController, animated: true)
-    }
-
-}
-
-extension TodoListViewController: TodoListViewDelegate {
-    func presentDetail() {
-        let viewController = TodoDetailConfigurator.configure()
-        present(viewController, animated: true)
+    func setupNavigationBar() {
+        title = Strings.List.myMatters
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.layoutMargins.left = 32
     }
 }
-
-// MARK: - TodoListPresenter Delegate
-
-extension TodoListViewController: TodoListViewProtocol {}

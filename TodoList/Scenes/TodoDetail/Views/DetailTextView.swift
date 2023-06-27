@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol DetailTextViewDelegate: AnyObject {
+    func textViewDidChange(_ textView: UITextView)
+}
+
 final class DetailTextView: UIView {
+    
+    weak var delegate: DetailTextViewDelegate?
 
     private lazy var textView: UITextView = {
         let textView = UITextView()
@@ -23,7 +29,7 @@ final class DetailTextView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-
+        textView.delegate = self
     }
 
     @available(*, unavailable)
@@ -42,6 +48,12 @@ final class DetailTextView: UIView {
 
 extension DetailTextView {
     typealias Model = String?
+}
+
+extension DetailTextView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        delegate?.textViewDidChange(textView)
+    }
 }
 
 private extension DetailTextView {

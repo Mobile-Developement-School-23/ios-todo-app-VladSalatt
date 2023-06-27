@@ -9,6 +9,7 @@ import UIKit
 
 protocol TodoDetailViewDeletage: AnyObject {
     func save(_ model: TodoDetailView.OutputModel)
+    func delete()
     func dismiss()
 }
 
@@ -43,24 +44,27 @@ final class TodoDetailView: UIView {
 
     private lazy var textView = DetailTextView()
 
-    private lazy var button = DetailDeleteButton()
+    private lazy var deleteButton = DetailDeleteButton()
 
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         navigaionBar.delegate = self
+        textView.delegate = self
 
         setupUI()
+        bindUI()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with model: Model?) {
-//        guard let model else { return }
-//        footerView.configure(with: model.footer)
-        textView.configure(with: model?.text ?? "")
-        footerView.configure(with: model?.footer ?? .default)
+    func configure(with model: Model) {
+        textView.configure(with: model.text)
+        footerView.configure(with: model.footer)
+        
+        let isEnabled = model.text?.isEmpty == false
+        navigaionBar.setSaveButton(isEnabled)
     }
 
     override func layoutSubviews() {
@@ -71,8 +75,25 @@ final class TodoDetailView: UIView {
 
 extension TodoDetailView {
     struct Model {
-        let text: DetailTextView.Model?
-        let footer: DetailFooterView.Model?
+        let text: DetailTextView.Model
+        let footer: DetailFooterView.Model
+    }
+}
+
+extension TodoDetailView.Model {
+    static var `default`: Self {
+        Self(
+            text: "",
+            footer: DetailFooterView.Model(
+                importance: DetailItemView.Model(
+                    title: "Важность",
+                    selectedIndex: 1
+                ),
+                deadline: DetailItemView.Model(
+                    title: "Сделать до"
+                )
+            )
+        )
     }
 }
 
@@ -88,7 +109,7 @@ private extension TodoDetailView {
                     contentStackView.addArrangedSubviews(
                         textView,
                         footerView,
-                        button
+                        deleteButton
                     )
                 )
             )
@@ -107,9 +128,12 @@ private extension TodoDetailView {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: navigaionBar.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor)
+            scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
+
+        let scrollBottomContraint = scrollView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor)
+        scrollBottomContraint.isActive = true
+        scrollBottomContraint.priority = .defaultLow
 
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
@@ -125,6 +149,18 @@ private extension TodoDetailView {
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             contentStackView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
         ])
+    }
+    
+    func bindUI() {
+        deleteButton.addAction(deleteAction, for: .touchUpInside)
+    }
+}
+
+private extension TodoDetailView {
+    var deleteAction: UIAction {
+        UIAction { [weak self] _ in
+            self?.delegate?.delete()
+        }
     }
 }
 
@@ -149,5 +185,12 @@ extension TodoDetailView: DetailNavigationBarDelegate {
         let text: String
         let importanceInt: Int
         let deadLine: Date?
+    }
+}
+
+extension TodoDetailView: DetailTextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let isEnabled = !textView.text.isEmpty
+        navigaionBar.setSaveButton(isEnabled)
     }
 }

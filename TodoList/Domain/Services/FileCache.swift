@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import OrderedCollections
+import CocoaLumberjackSwift
 
 protocol FileCacheProtocol {
-    var items: [String: TodoItem] { get }
+    var items: OrderedDictionary<String, TodoItem> { get }
     func add(_ item: TodoItem)
     func deleteItem(with id: String)
     func save(as type: FileCache.FileType, to name: String) throws
@@ -20,7 +22,8 @@ final class FileCache: FileCacheProtocol {
         static let todoItems = "todoItems"
     }
 
-    private(set) var items: [String: TodoItem] = [:]
+    private(set) var items: OrderedDictionary<String, TodoItem> = [:]
+
     private let fileManager: FileManager
 
     init(fileManager: FileManager) {
@@ -35,7 +38,7 @@ final class FileCache: FileCacheProtocol {
         items[id] = nil
     }
 
-    func save(as type: FileType, to path: String) throws {
+    func save(as type: FileType, to path: String = Constants.todoItems) throws {
         guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw FileCacheError.directoryNotFound
         }
@@ -52,7 +55,7 @@ final class FileCache: FileCacheProtocol {
         }
     }
 
-    func load(_ type: FileType, from path: String) throws {
+    func load(_ type: FileType, from path: String = Constants.todoItems) throws {
         guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw FileCacheError.directoryNotFound
         }
@@ -93,24 +96,31 @@ private extension FileCache {
         let jsones = items.values.map { $0.json }
         let data = try JSONSerialization.data(withJSONObject: jsones, options: .prettyPrinted)
         try data.write(to: path)
+        DDLogVerbose("🟢 Items successfull save as JSON")
     }
 
     func saveAsCsv(to path: URL) throws {
         let csv = items.values.map { $0.csv }.joined(separator: "\n")
         try csv.write(to: path, atomically: true, encoding: .utf8)
+        DDLogVerbose("🟢 Items successfull save as CSV")
     }
 
     func loadJson(from path: URL) throws {
         guard
             let data = try? Data(contentsOf: path),
             let rawItems = try JSONSerialization.jsonObject(with: data) as? [Any]
-        else { return }
+        else {
+            DDLogVerbose("🟡 You are have empty or incorrect array of todo items")
+            return
+        }
         updateTodoItems(from: rawItems)
+        DDLogVerbose("🟢 Items successfull load from JSON")
     }
 
     func loadCsv(from path: URL) throws {
         let rawItems = try String(contentsOf: path).split(separator: ",").map(String.init)
         updateTodoItems(from: rawItems)
+        DDLogVerbose("🟢 Items successfull load from CSV")
     }
 
     func updateTodoItems(from rawItems: [Any]) {

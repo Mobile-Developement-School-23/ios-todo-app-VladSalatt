@@ -23,4 +23,10 @@ extension UIStackView {
         views.forEach { addArrangedSubview($0) }
         return self
     }
+    
+    func setCustomSpacings(_ spacings: [UIView: CGFloat]) {
+        spacings.forEach { view, spacing in
+            setCustomSpacing(spacing, after: view)
+        }
+    }
 }
