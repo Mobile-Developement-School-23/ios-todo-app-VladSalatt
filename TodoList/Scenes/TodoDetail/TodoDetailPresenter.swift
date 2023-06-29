@@ -15,21 +15,21 @@ protocol TodoDetailPresenterProtocol {
         router: TodoDetailRouterProtocol,
         fileCache: FileCacheProtocol
     )
-    
+
     func makeModel() -> TodoDetailView.Model?
     func save(_ item: TodoItem)
 }
 
 final class TodoDetailPresenter: TodoDetailPresenterProtocol {
-    
+
     // MARK: - Properties
-    
+
     private weak var view: TodoDetailViewProtocol?
     private let router: TodoDetailRouterProtocol
     private let fileCache: FileCacheProtocol
-    
+
     // MARK: - Initializers
-    
+
     init(
         view: TodoDetailViewProtocol,
         router: TodoDetailRouterProtocol,
@@ -39,11 +39,11 @@ final class TodoDetailPresenter: TodoDetailPresenterProtocol {
         self.router = router
         self.fileCache = fileCache
     }
-    
+
     func makeModel() -> TodoDetailView.Model? {
         try? fileCache.load(.json, from: "items")
         let item = fileCache.items.randomElement()?.value
-        
+
         return TodoDetailView.Model(
             text: item?.text ?? "",
             footer: DetailFooterView.Model(
@@ -62,7 +62,7 @@ final class TodoDetailPresenter: TodoDetailPresenterProtocol {
             )
         )
     }
-    
+
     func save(_ item: TodoItem) {
         fileCache.add(item)
     }

@@ -14,8 +14,8 @@ final class TodoDetailConfigurator {
         let fileCache = FileCache(fileManager: .default)
         let presenter = TodoDetailPresenter(view: view, router: router, fileCache: fileCache)
         view.presenter = presenter
-        
+
         return view
     }
-    
+
 }

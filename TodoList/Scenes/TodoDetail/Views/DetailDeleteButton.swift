@@ -8,7 +8,6 @@
 import UIKit
 
 class DetailDeleteButton: UIButton {
-    
     private lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +22,7 @@ class DetailDeleteButton: UIButton {
         super.init(frame: frame)
         setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,20 +33,20 @@ private extension DetailDeleteButton {
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 16
         backgroundColor = .Back.secondary
-        
+
         addSubviews(
             label
         )
-        
+
         setupConstraints()
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
 }

@@ -16,7 +16,7 @@ struct TodoItem {
     let createdAt: Date
     /// Дата изменения
     let changedAt: Date?
-    
+
     init(
         id: String = UUID().uuidString,
         text: String,

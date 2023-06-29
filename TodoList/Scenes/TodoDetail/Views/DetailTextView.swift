@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailTextView: UIView {
-    
+
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,22 +19,22 @@ final class DetailTextView: UIView {
         textView.isScrollEnabled = false
         return textView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        
+
     }
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-    
+
     func configure(with model: Model) {
         textView.text = model
     }
-    
+
     func getModel() -> Model {
         textView.text
     }
@@ -49,14 +49,14 @@ private extension DetailTextView {
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = true
         layer.cornerRadius = 16
-        
+
         addSubviews(
             textView
         )
-        
+
         setupConstraints()
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120),

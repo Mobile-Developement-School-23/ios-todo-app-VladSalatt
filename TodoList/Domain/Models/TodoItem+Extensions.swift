@@ -1,4 +1,5 @@
 import Foundation
+import CocoaLumberjackSwift
 
 extension TodoItem {
     static func parse(with data: Any) -> TodoItem? {
@@ -10,10 +11,11 @@ extension TodoItem {
             guard let csv = data as? String else { return nil }
             return TodoItem(from: csv)
         default:
+            DDLogVerbose("TodoItem doesn't parse from data. Incorrect input")
             return nil
         }
     }
-    
+
     var json: Any {
         [
             CustomKeys.id.rawValue: id,
@@ -25,7 +27,7 @@ extension TodoItem {
             CustomKeys.changedAt.rawValue: changedAt == nil ? nil : deadline.flatMap { $0.timeIntervalSince1970 }
         ].compactMapValues { $0 }
     }
-    
+
     var csv: String {
         [
             id,
@@ -46,13 +48,16 @@ private extension TodoItem {
             let id = jsonDict[CustomKeys.id.rawValue] as? String,
             let text = jsonDict[CustomKeys.text.rawValue] as? String,
             let createdAtTS = jsonDict[CustomKeys.createdAt.rawValue] as? TimeInterval
-        else { return nil }
+        else {
+            DDLogVerbose("Fail init TodoItem from json. Id, text or createdAtTS doesn't exist")
+            return nil
+        }
         let importance = (jsonDict[CustomKeys.importance.rawValue] as? String).flatMap(Importance.init(rawValue:)) ?? .basic
         let deadline = (jsonDict[CustomKeys.deadline.rawValue] as? TimeInterval).flatMap(Date.init(timeIntervalSince1970:))
         let isDone = (jsonDict[CustomKeys.isDone.rawValue] as? Bool) ?? false
         let createdAt = Date(timeIntervalSince1970: createdAtTS)
         let changedAt = (jsonDict[CustomKeys.changedAt.rawValue] as? TimeInterval).flatMap(Date.init(timeIntervalSince1970:))
-        
+
         self.init(
             id: id,
             text: text,
@@ -63,10 +68,13 @@ private extension TodoItem {
             changedAt: changedAt
         )
     }
-    
+
     init?(from csv: String) {
         let comps = csv.components(separatedBy: ",")
-        guard comps.count == 7 else { return nil }
+        guard comps.count == 7 else {
+            DDLogVerbose("Fail init TodoItem from cvs. Count of element not equal to 7")
+            return nil
+        }
         let (id, text, importance, deadline, isDone, createdAt, changedAt) = (
             comps[0],
             comps[1],
@@ -76,7 +84,7 @@ private extension TodoItem {
             TimeInterval(comps[5]).flatMap(Date.init(timeIntervalSince1970:)) ?? Date(),
             TimeInterval(comps[6]).flatMap(Date.init(timeIntervalSince1970:))
         )
-        
+
         self.init(
             id: id,
             text: text,

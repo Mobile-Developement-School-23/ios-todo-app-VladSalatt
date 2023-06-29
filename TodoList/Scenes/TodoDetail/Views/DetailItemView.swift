@@ -17,14 +17,14 @@ final class DetailItemView: UIView {
     weak var delegate: DetailItemViewDelegate?
 
     private var selectedDate: Date?
-    
+
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         return stackView
     }()
-    
+
     private lazy var titlesStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ final class DetailItemView: UIView {
         stack.alignment = .leading
         return stack
     }()
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,7 @@ final class DetailItemView: UIView {
         button.setTitleColor(.Color.blue, for: .normal)
         return button
     }()
-    
+
     private lazy var importanceControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
             UIImage.Priority.low as Any,
@@ -58,14 +58,14 @@ final class DetailItemView: UIView {
         control.isHidden = true
         return control
     }()
-    
+
     private lazy var toggle: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.isHidden = true
         return toggle
     }()
-    
+
     init(style: Style, frame: CGRect = .zero) {
         super.init(frame: frame)
         setupUI()
@@ -86,12 +86,12 @@ final class DetailItemView: UIView {
         toggle.isOn = model.selectedDate != nil
         selectedDate = model.selectedDate
     }
-    
+
     func changeSubtitle(with text: String?) {
         subtitleButton.setTitle(text, for: .normal)
         subtitleButton.isHidden = text == nil
     }
-    
+
     func getModel() -> Model {
         Model(
             title: titleLabel.text ?? "",
@@ -108,7 +108,7 @@ extension DetailItemView {
         let subtitle: String?
         let selectedIndex: Int?
         let selectedDate: Date?
-        
+
         init(
             title: String,
             subtitle: String? = nil,
@@ -121,7 +121,7 @@ extension DetailItemView {
             self.selectedDate = selectedDate
         }
     }
-    
+
     enum Style {
         case segmentedControl
         case toggle
@@ -139,17 +139,16 @@ private extension DetailItemView {
             toggle.isHidden = false
         }
     }
-    
+
     func bindUI() {
         toggle.addAction(toggleAction, for: .valueChanged)
         importanceControl.addAction(importanceAction, for: .valueChanged)
         subtitleButton.addAction(dateButtonTapped, for: .touchUpInside)
-        
     }
-    
+
     func setupUI() {
         translatesAutoresizingMaskIntoConstraints = false
-        
+
         addSubviews(
             contentStackView.addArrangedSubviews(
                 titlesStackView.addArrangedSubviews(
@@ -162,17 +161,17 @@ private extension DetailItemView {
         )
         setupConstraints()
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            
+
             importanceControl.widthAnchor.constraint(equalToConstant: 150)
         ])
-        
+
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         subtitleButton.setContentHuggingPriority(.required, for: .horizontal)
     }
@@ -185,7 +184,7 @@ private extension DetailItemView {
             self.delegate?.toggleChanged(isOn: self.toggle.isOn)
         }
     }
-    
+
     var importanceAction: UIAction {
         UIAction { [weak self] _ in
             guard let self else { return }

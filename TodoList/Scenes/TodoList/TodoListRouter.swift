@@ -12,15 +12,15 @@ protocol TodoListRouterProtocol {
 }
 
 final class TodoListRouter: TodoListRouterProtocol {
-    
+
     // MARK: - Properties
-    
+
     private weak var view: UIViewController?
-    
+
     // MARK: - Initializers
-    
+
     init(view: UIViewController) {
         self.view = view
     }
-    
+
 }

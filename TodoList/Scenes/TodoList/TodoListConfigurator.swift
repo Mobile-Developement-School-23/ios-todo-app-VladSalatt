@@ -13,8 +13,7 @@ final class TodoListConfigurator {
         let router = TodoListRouter(view: view)
         let presenter = TodoListPresenter(view: view, router: router)
         view.presenter = presenter
-        
+
         return view
     }
-    
 }
