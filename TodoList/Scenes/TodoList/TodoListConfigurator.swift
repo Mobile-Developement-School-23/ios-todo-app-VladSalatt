@@ -8,10 +8,10 @@
 import UIKit
 
 final class TodoListConfigurator {
-    static func configure() -> UIViewController {
+    static func configure(fileCache: FileCacheProtocol) -> UIViewController {
         let view = TodoListViewController()
         let router = TodoListRouter(view: view)
-        let presenter = TodoListPresenter(view: view, router: router)
+        let presenter = TodoListPresenter(view: view, router: router, fileCache: fileCache)
         view.presenter = presenter
 
         return view

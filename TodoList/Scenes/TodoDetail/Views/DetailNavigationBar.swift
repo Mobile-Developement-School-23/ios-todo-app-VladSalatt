@@ -25,7 +25,7 @@ final class DetailNavigationBar: UIView {
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(Strings.Detail.cancel, for: .normal)
         button.titleLabel?.font = .body
         button.setTitleColor(.Color.blue, for: .normal)
         return button
@@ -40,7 +40,7 @@ final class DetailNavigationBar: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Дело"
+        label.text = Strings.Detail.matter
         label.font = .headline
         label.textColor = .Label.primary
         return label
@@ -55,9 +55,11 @@ final class DetailNavigationBar: UIView {
     private lazy var saveButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Сохранить", for: .normal)
+        button.setTitle(Strings.Detail.save, for: .normal)
         button.titleLabel?.font = .headline
         button.setTitleColor(.Color.blue, for: .normal)
+        button.setTitleColor(.Label.tertiary, for: .disabled)
+        button.isEnabled = false
         return button
     }()
 
@@ -69,6 +71,10 @@ final class DetailNavigationBar: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setSaveButton(_ enabled: Bool) {
+        saveButton.isEnabled = enabled
     }
 }
 

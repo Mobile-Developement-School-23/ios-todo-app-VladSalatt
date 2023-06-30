@@ -7,68 +7,126 @@
 
 import UIKit
 
-protocol TodoDetailViewProtocol: AnyObject {}
+protocol TodoDetailViewProtocol: AnyObject {
+    func dismiss()
+}
 
 protocol TodoDetailPresenterProtocol {
     init(
+        id: String?,
         view: TodoDetailViewProtocol,
         router: TodoDetailRouterProtocol,
-        fileCache: FileCacheProtocol
+        fileCache: FileCacheProtocol,
+        saveCompletion: (() -> Void)?
     )
 
-    func makeModel() -> TodoDetailView.Model?
-    func save(_ item: TodoItem)
+    func transform() -> TodoDetailView.Model
+    func save(_ viewItem: TodoDetailView.OutputModel)
+    func delete()
 }
 
 final class TodoDetailPresenter: TodoDetailPresenterProtocol {
 
     // MARK: - Properties
 
+    private let id: String?
     private weak var view: TodoDetailViewProtocol?
     private let router: TodoDetailRouterProtocol
     private let fileCache: FileCacheProtocol
+    private let completion: (() -> Void)?
 
     // MARK: - Initializers
 
     init(
+        id: String?,
         view: TodoDetailViewProtocol,
         router: TodoDetailRouterProtocol,
-        fileCache: FileCacheProtocol
+        fileCache: FileCacheProtocol,
+        saveCompletion: (() -> Void)?
     ) {
+        self.id = id
         self.view = view
         self.router = router
         self.fileCache = fileCache
+        self.completion = saveCompletion
     }
 
-    func makeModel() -> TodoDetailView.Model? {
-        try? fileCache.load(.json, from: "items")
-        let item = fileCache.items.randomElement()?.value
+    func transform() -> TodoDetailView.Model {
+        guard
+            let id,
+            let item = fileCache.items[id]
+        else { return .default }
 
-        return TodoDetailView.Model(
-            text: item?.text ?? "",
+        return TodoDetailView.Model(from: item)
+    }
+
+    func save(_ viewItem: TodoDetailView.OutputModel) {
+        var parentItem: TodoItem?
+        if let id, let item = fileCache.items[id] { parentItem = item }
+        let rewritedItem = TodoItem(parent: parentItem, from: viewItem)
+        fileCache.add(rewritedItem)
+        view?.dismiss()
+        completion?()
+    }
+    
+    func delete() {
+        guard let id else {
+            view?.dismiss()
+            return
+        }
+        fileCache.deleteItem(with: id)
+        view?.dismiss()
+        completion?()
+    }
+}
+
+private extension TodoDetailView.Model {
+    init(from item: TodoItem) {
+        self.init(
+            text: item.text,
             footer: DetailFooterView.Model(
                 importance: DetailItemView.Model(
-                    title: "Важность",
-                    subtitle: nil,
-                    selectedIndex: item?.importance.intValue,
-                    selectedDate: nil
+                    title: Strings.Detail.importance,
+                    selectedIndex: item.importance.intValue
                 ),
                 deadline: DetailItemView.Model(
-                    title: "Сделать до",
-                    subtitle: item?.deadline.flatMap { DateFormatter.dayWithMonth.string(from: $0) },
-                    selectedIndex: nil,
-                    selectedDate: item?.deadline
+                    title: Strings.Detail.doThisUntil,
+                    subtitle: item.deadline.flatMap { DateFormatter.dayWithMonth.string(from: $0) },
+                    selectedDate: item.deadline
                 )
             )
         )
     }
+}
 
-    func save(_ item: TodoItem) {
-        fileCache.add(item)
+private extension TodoItem {
+    init(parent: TodoItem?, from model: TodoDetailView.OutputModel) {
+        self.init(
+            id: parent?.id ?? UUID().uuidString,
+            text: model.text,
+            importance: Importance(from: model.importanceInt),
+            deadline: model.deadLine,
+            isDone: parent?.isDone ?? false,
+            createdAt: parent?.createdAt ?? Date(),
+            changedAt: Date()
+        )
     }
 }
 
 private extension TodoItem.Importance {
+    init(from index: Int) {
+        switch index {
+        case 0:
+            self = .low
+        case 1:
+            self = .basic
+        case 2:
+            self = .important
+        default:
+            self = .basic
+        }
+    }
+    
     var intValue: Int {
         switch self {
         case .low:

@@ -20,7 +20,7 @@ final class TodoDetailViewController: UIViewController {
         super.viewDidLoad()
         customView.delegate = self
         setupUI()
-        customView.configure(with: presenter?.makeModel())
+        configure()
     }
 }
 
@@ -35,14 +35,22 @@ private extension TodoDetailViewController {
             customView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    
+    func configure() {
+        let model: TodoDetailView.Model = presenter?.transform() ?? .default
+        customView.configure(with: model)
+    }
 }
 
 // MARK: - TodoDetailPresenter Delegate
 
 extension TodoDetailViewController: TodoDetailViewDeletage {
     func save(_ model: TodoDetailView.OutputModel) {
-        let item = TodoItem(from: model)
-        presenter?.save(item)
+        presenter?.save(model)
+    }
+    
+    func delete() {
+        presenter?.delete()
     }
 
     func dismiss() {
@@ -50,33 +58,4 @@ extension TodoDetailViewController: TodoDetailViewDeletage {
     }
 }
 
-extension TodoDetailViewController: TodoDetailViewProtocol {
-}
-
-private extension TodoItem {
-    init(from model: TodoDetailView.OutputModel) {
-        self.init(
-            text: model.text,
-            importance: Importance(from: model.importanceInt),
-            deadline: model.deadLine,
-            isDone: false,
-            createdAt: Date(),
-            changedAt: nil
-        )
-    }
-}
-
-private extension TodoItem.Importance {
-    init(from index: Int) {
-        switch index {
-        case 0:
-            self = .low
-        case 1:
-            self = .basic
-        case 2:
-            self = .important
-        default:
-            self = .basic
-        }
-    }
-}
+extension TodoDetailViewController: TodoDetailViewProtocol {}

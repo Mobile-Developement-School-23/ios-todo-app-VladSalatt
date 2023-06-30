@@ -11,7 +11,7 @@ class DetailDeleteButton: UIButton {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Удалить"
+        label.text = Strings.Detail.delete
         label.font = .body
         label.textColor = .Color.red
         label.textAlignment = .center

@@ -25,6 +25,9 @@
 		EA293C112A3DF4CC006D85CC /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA293C0B2A3DF4CC006D85CC /* TodoDetailView.swift */; };
 		EA293C122A3DF4CC006D85CC /* TodoDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA293C0C2A3DF4CC006D85CC /* TodoDetailConfigurator.swift */; };
 		EA4C82212A38F85B00C5FCF2 /* TodoItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4C82202A38F85B00C5FCF2 /* TodoItem+Extensions.swift */; };
+		EA4CA98E2A4DED76000CC4FF /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4CA98D2A4DED76000CC4FF /* ListTableView.swift */; };
+		EA4CA9912A4E0865000CC4FF /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = EA4CA9902A4E0865000CC4FF /* OrderedCollections */; };
+		EA4CA9932A4E2515000CC4FF /* ListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4CA9922A4E2515000CC4FF /* ListTableHeaderView.swift */; };
 		EA4D02FF2A3F509200F4FC29 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA4D02FE2A3F509200F4FC29 /* Colors.xcassets */; };
 		EA4D03022A3F5A6B00F4FC29 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4D03012A3F5A6B00F4FC29 /* UIColor+Extensions.swift */; };
 		EA655DD82A37942D00AE56DA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA655DD72A37942D00AE56DA /* TodoItem.swift */; };
@@ -44,7 +47,12 @@
 		EA7B28E92A37930700261559 /* TodoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28E82A37930700261559 /* TodoListTests.swift */; };
 		EA7B28F32A37930700261559 /* TodoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28F22A37930700261559 /* TodoListUITests.swift */; };
 		EA7B28F52A37930700261559 /* TodoListUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B28F42A37930700261559 /* TodoListUITestsLaunchTests.swift */; };
+		EADC76462A4B50070073B1D7 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC76452A4B50070073B1D7 /* Strings.swift */; };
+		EADC76492A4B543C0073B1D7 /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC76482A4B543C0073B1D7 /* ListCellView.swift */; };
+		EADC764B2A4B61800073B1D7 /* ListTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC764A2A4B61800073B1D7 /* ListTitleView.swift */; };
+		EADC764D2A4B63D50073B1D7 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC764C2A4B63D50073B1D7 /* UIImageView+Extensions.swift */; };
 		EADDC8262A45D44500A5E910 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADDC8252A45D44500A5E910 /* DateFormatter+Extensions.swift */; };
+		EAEF38AD2A4B64C700AD2EF9 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEF38AC2A4B64C700AD2EF9 /* UILabel+Extensions.swift */; };
 		EAF5DDFA2A3A3E9D00BEA9BD /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF5DDF92A3A3E9D00BEA9BD /* FileCache.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +97,8 @@
 		EA293C0B2A3DF4CC006D85CC /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		EA293C0C2A3DF4CC006D85CC /* TodoDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailConfigurator.swift; sourceTree = "<group>"; };
 		EA4C82202A38F85B00C5FCF2 /* TodoItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+Extensions.swift"; sourceTree = "<group>"; };
+		EA4CA98D2A4DED76000CC4FF /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		EA4CA9922A4E2515000CC4FF /* ListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableHeaderView.swift; sourceTree = "<group>"; };
 		EA4D02FE2A3F509200F4FC29 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EA4D03012A3F5A6B00F4FC29 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		EA655DD72A37942D00AE56DA /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
@@ -112,7 +122,12 @@
 		EA7B28EE2A37930700261559 /* TodoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA7B28F22A37930700261559 /* TodoListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListUITests.swift; sourceTree = "<group>"; };
 		EA7B28F42A37930700261559 /* TodoListUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EADC76452A4B50070073B1D7 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		EADC76482A4B543C0073B1D7 /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
+		EADC764A2A4B61800073B1D7 /* ListTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTitleView.swift; sourceTree = "<group>"; };
+		EADC764C2A4B63D50073B1D7 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		EADDC8252A45D44500A5E910 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		EAEF38AC2A4B64C700AD2EF9 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EAF5DDF92A3A3E9D00BEA9BD /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +138,7 @@
 			files = (
 				EA2901422A48BDAE00D82049 /* CocoaLumberjackSwift in Frameworks */,
 				CDDE2587A86078B5629AE5D7 /* Pods_TodoList.framework in Frameworks */,
+				EA4CA9912A4E0865000CC4FF /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +198,7 @@
 		EA293BFA2A3DF4A6006D85CC /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				EADC76472A4B540F0073B1D7 /* Views */,
 				EA293BFB2A3DF4B5006D85CC /* TodoListPresenter.swift */,
 				EA293BFC2A3DF4B5006D85CC /* TodoListRouter.swift */,
 				EA293BFD2A3DF4B5006D85CC /* TodoListViewController.swift */,
@@ -212,6 +229,8 @@
 				EA20FFAD2A422C6200183E8E /* UIView+Extensions.swift */,
 				EA6D3C3C2A44B739002FAFA7 /* UIFont+Extensions.swift */,
 				EADDC8252A45D44500A5E910 /* DateFormatter+Extensions.swift */,
+				EADC764C2A4B63D50073B1D7 /* UIImageView+Extensions.swift */,
+				EAEF38AC2A4B64C700AD2EF9 /* UILabel+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -298,6 +317,17 @@
 			path = TodoListUITests;
 			sourceTree = "<group>";
 		};
+		EADC76472A4B540F0073B1D7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EADC76482A4B543C0073B1D7 /* ListCellView.swift */,
+				EADC764A2A4B61800073B1D7 /* ListTitleView.swift */,
+				EA4CA98D2A4DED76000CC4FF /* ListTableView.swift */,
+				EA4CA9922A4E2515000CC4FF /* ListTableHeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		EAF5DDF82A3A3E8E00BEA9BD /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +351,7 @@
 				EA7B28DA2A37930700261559 /* Assets.xcassets */,
 				EA4D02FE2A3F509200F4FC29 /* Colors.xcassets */,
 				EA7B28DC2A37930700261559 /* LaunchScreen.storyboard */,
+				EADC76452A4B50070073B1D7 /* Strings.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -355,6 +386,7 @@
 			name = TodoList;
 			packageProductDependencies = (
 				EA2901412A48BDAE00D82049 /* CocoaLumberjackSwift */,
+				EA4CA9902A4E0865000CC4FF /* OrderedCollections */,
 			);
 			productName = TodoList;
 			productReference = EA7B28CE2A37930600261559 /* TodoList.app */;
@@ -432,6 +464,7 @@
 			mainGroup = EA7B28C52A37930600261559;
 			packageReferences = (
 				EA2901402A48BDAE00D82049 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+				EA4CA98F2A4E0865000CC4FF /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = EA7B28CF2A37930600261559 /* Products */;
 			projectDirPath = "";
@@ -568,13 +601,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EADC764D2A4B63D50073B1D7 /* UIImageView+Extensions.swift in Sources */,
 				EA293C032A3DF4B5006D85CC /* TodoListViewController.swift in Sources */,
 				EA293C012A3DF4B5006D85CC /* TodoListPresenter.swift in Sources */,
 				EA20FFAE2A422C6200183E8E /* UIView+Extensions.swift in Sources */,
 				EA20FFAC2A422B3A00183E8E /* DetailItemView.swift in Sources */,
 				EA6D3C3F2A44B9A7002FAFA7 /* DetailFooterView.swift in Sources */,
+				EAEF38AD2A4B64C700AD2EF9 /* UILabel+Extensions.swift in Sources */,
 				EA293C122A3DF4CC006D85CC /* TodoDetailConfigurator.swift in Sources */,
+				EA4CA98E2A4DED76000CC4FF /* ListTableView.swift in Sources */,
 				EA4C82212A38F85B00C5FCF2 /* TodoItem+Extensions.swift in Sources */,
+				EADC764B2A4B61800073B1D7 /* ListTitleView.swift in Sources */,
 				EA7B28D22A37930600261559 /* AppDelegate.swift in Sources */,
 				EA6D3C412A44E2D6002FAFA7 /* DetailNavigationBar.swift in Sources */,
 				EA4D03022A3F5A6B00F4FC29 /* UIColor+Extensions.swift in Sources */,
@@ -588,11 +625,14 @@
 				EA7B28D42A37930600261559 /* SceneDelegate.swift in Sources */,
 				EA20FFA52A4229C400183E8E /* UIImage+Extensions.swift in Sources */,
 				EADDC8262A45D44500A5E910 /* DateFormatter+Extensions.swift in Sources */,
+				EADC76462A4B50070073B1D7 /* Strings.swift in Sources */,
 				EA293C0F2A3DF4CC006D85CC /* TodoDetailRouter.swift in Sources */,
 				EA6D3C432A44E9E5002FAFA7 /* DetailTextView.swift in Sources */,
 				EA6D3C452A44F47D002FAFA7 /* DetailDeleteButton.swift in Sources */,
+				EA4CA9932A4E2515000CC4FF /* ListTableHeaderView.swift in Sources */,
 				EA6D3C3D2A44B739002FAFA7 /* UIFont+Extensions.swift in Sources */,
 				EA293C102A3DF4CC006D85CC /* TodoDetailViewController.swift in Sources */,
+				EADC76492A4B543C0073B1D7 /* ListCellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,6 +982,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		EA4CA98F2A4E0865000CC4FF /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -949,6 +997,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EA2901402A48BDAE00D82049 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
 			productName = CocoaLumberjackSwift;
+		};
+		EA4CA9902A4E0865000CC4FF /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EA4CA98F2A4E0865000CC4FF /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

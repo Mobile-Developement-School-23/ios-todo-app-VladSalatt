@@ -9,6 +9,11 @@ import UIKit
 
 protocol TodoListRouterProtocol {
     init(view: UIViewController)
+    func openDetail(
+        with id: String?,
+        fileCache: FileCacheProtocol,
+        saveCompletion: (() -> Void)?
+    )
 }
 
 final class TodoListRouter: TodoListRouterProtocol {
@@ -23,4 +28,16 @@ final class TodoListRouter: TodoListRouterProtocol {
         self.view = view
     }
 
+    func openDetail(
+        with id: String?,
+        fileCache: FileCacheProtocol,
+        saveCompletion: (() -> Void)?
+    ) {
+        let detailViewController = TodoDetailConfigurator.configure(
+            with: id,
+            fileCache: fileCache,
+            saveCompletion: saveCompletion
+        )
+        view?.navigationController?.present(detailViewController, animated: true)
+    }
 }
